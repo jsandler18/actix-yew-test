@@ -1,14 +1,4 @@
-[package]
-name = "actix-yew-test"
-version = "0.1.0"
-authors = ["Jake Sandler <jsandler18@gmail.com>"]
-
-[dependencies]
-diesel = { version = "1.0.0", features = ["postgres", "r2d2", "chrono"] }
-r2d2 = "0.8"
-dotenv = "0.9.0"
-actix-web = "0.6"
-actix = "0.7"
-log = "0.4"
-env_logger = "0.5"
-derive-error = "0.0.3"
+[workspace]
+members = [
+    "server"
+]
