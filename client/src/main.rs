@@ -1,14 +1,15 @@
 #[macro_use]
 extern crate yew;
 
+pub mod components;
+
 use yew::prelude::*;
+use components::toggle::Toggle;
 
 struct Model {
-    is_clicked: bool
 }
 
 enum Msg {
-    DoIt,
 }
 
 impl Component for Model {
@@ -19,18 +20,11 @@ impl Component for Model {
 
     fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
         Model {
-            is_clicked: false
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        match msg {
-            Msg::DoIt => {
-                self.is_clicked = true;
-                // Update your model on events
-                true
-            }
-        }
+        true
     }
 }
 
@@ -38,7 +32,7 @@ impl Renderable<Model> for Model {
     fn view(&self) -> Html<Self> {
         html! {
             // Render your model here
-            <button onclick=|_| Msg::DoIt,>{ if self.is_clicked { "clicked" } else {"click me"} }</button>
+            <Toggle: on_string="on", off_string="off", />
         }
     }
 }
