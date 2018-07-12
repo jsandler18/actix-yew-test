@@ -11,7 +11,7 @@ pub mod db;
 pub mod error;
 pub mod schema;
 
-use actix_web::{server, App, HttpRequest};
+use actix_web::{server, App, HttpRequest, fs::NamedFile, fs::StaticFiles};
 use actix_web::middleware::Logger;
 use actix::prelude::*;
 use dotenv::dotenv;
@@ -21,13 +21,10 @@ struct State {
     db: Addr<Syn, db::DbExecutor>
 }
 
-fn index(_req: HttpRequest<State>) -> &'static str {
-    "Hello, world"
-}
 
 fn main() -> Result {
     let runner = actix::System::new("todo");
-    
+
     // Initialize Logger
     std::env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
@@ -41,9 +38,10 @@ fn main() -> Result {
     });
 
     // Initialize server
-    server::HttpServer::new(move || App::with_state(State {db: db_addr.clone()})
+    server::HttpServer::new(move || App::with_state(State { db: db_addr.clone() })
         .middleware(Logger::default())
-        .resource("/", |r| r.f(index)))
+
+        .handler("/", StaticFiles::new("./static")))
         .bind("127.0.0.1:8000")
         .unwrap()
         .start();

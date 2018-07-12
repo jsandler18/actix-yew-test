@@ -10,4 +10,6 @@ pub enum Error {
     DbPoolCreationError,
     // Could not get a db connection from the pool
     DbPoolConnectionError,
+    // Resource not found
+    ResourceNotFound,
 }

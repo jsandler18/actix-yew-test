@@ -9,7 +9,8 @@ server:
 	cargo build -p server
 
 all: client server
-	mv ./target/deploy/client.js ./static/js/client.js
+	mv ./target/deploy/client.js ./static/client.js
+	mv ./target/deploy/client.wasm ./static/client.wasm
 
 clean:
 	rm ./static/js/client.js
