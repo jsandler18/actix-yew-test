@@ -18,7 +18,7 @@ use dotenv::dotenv;
 use error::{Error, Result};
 
 struct State {
-    db: Addr<db::DbExecutor>
+    db: Addr<Syn, db::DbExecutor>
 }
 
 fn index(_req: HttpRequest<State>) -> &'static str {
@@ -26,9 +26,12 @@ fn index(_req: HttpRequest<State>) -> &'static str {
 }
 
 fn main() -> Result {
+    let runner = actix::System::new("todo");
+    
     // Initialize Logger
     std::env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
+
 
     // Initialize Database
     let _ = dotenv();
@@ -38,11 +41,12 @@ fn main() -> Result {
     });
 
     // Initialize server
-    server::new(move || App::with_state(State {db: db_addr.clone()})
+    server::HttpServer::new(move || App::with_state(State {db: db_addr.clone()})
         .middleware(Logger::default())
         .resource("/", |r| r.f(index)))
         .bind("127.0.0.1:8000")
         .unwrap()
-        .run();
+        .start();
+    let _ = runner.run();
     Ok(())
 }
