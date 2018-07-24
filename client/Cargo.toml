@@ -5,4 +5,5 @@ authors = ["Jake Sandler <jsandler18@gmail.com>"]
 workspace = ".."
 
 [dependencies]
-yew = { git = "https://github.com/DenisKolodin/yew" }
+yew = "0.4.0"
+yew_simple = "0.3.0"
